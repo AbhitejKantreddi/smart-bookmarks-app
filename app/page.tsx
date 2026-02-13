@@ -2,12 +2,15 @@ import { createClient } from '@/lib/supabase-server'
 import { AuthButton } from '@/components/AuthButton'
 import { BookmarksClient } from '@/components/BookmarksClient'
 import { Bookmark, Sparkles, Lock, Zap } from 'lucide-react'
+import type { Database } from '@/types/database'
+
+type BookmarkType = Database['public']['Tables']['bookmarks']['Row']
 
 export default async function Home() {
   const supabase = createClient()
   const { data: { user } } = await supabase.auth.getUser()
 
-  let bookmarks = []
+  let bookmarks: BookmarkType[] = []
 
   if (user) {
     const { data } = await supabase
